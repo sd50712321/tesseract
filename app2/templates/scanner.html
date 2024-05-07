@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+
+{% block body %}
+<br><br>
+<h4>Upload the Business Card to Scan and Extract Entities</h4>
+
+<div class="row">
+    <form action="#" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+            <input type="file" class="form-control" name="image_name" required>
+            <input type="submit" value="Upload Image" class="btn btn-primary">
+            <button class="btn btn-warning" id="undoLast">Undo Last Annotation</button>
+        </div>
+    </form>
+    <br>
+
+    {% if fileupload %}
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Canvas for drawing rectangles and displaying the uploaded image -->
+                <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" id="startDrawing">Start Drawing Rectangles</button>
+                <button class="btn btn-success" id="sendData">Submit Annotations</button>
+                <p>{{ message }}</p>
+                <!-- Display Annotations -->
+                <div id="annotationsList" style="height: 300px; overflow-y: scroll;">
+                    <ul id="annotationsDisplay"></ul>
+                </div>
+            </div>
+            <div class="col" id="loader" align="center">
+                <!-- Loader or placeholder for processing display -->
+            </div>
+        </div>
+
+        <!-- Hidden form to submit annotations -->
+        <form id="annotationForm" action="/submit_annotations" method="post">
+            <input type="hidden" name="annotations" id="annotationsInput">
+        </form>
+    {% endif %}
+    <!-- Include the JavaScript for handling the canvas and form actions -->
+    <script src="/static/js/doc_scan.js"></script>
+{% endblock %}
